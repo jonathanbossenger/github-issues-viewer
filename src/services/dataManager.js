@@ -21,7 +21,9 @@ export const fetchIssues = async (forceFresh = false) => {
   }
 
   try {
-    const issues = await fetchUserIssues(credentials.pat)
+    const response = await fetchUserIssues(credentials.pat)
+    const { viewer } = response
+    const issues = viewer.issues.nodes
     
     // Group issues by repository
     const groupedIssues = issues.reduce((acc, issue) => {
@@ -31,6 +33,7 @@ export const fetchIssues = async (forceFresh = false) => {
           id: issue.repository.id,
           name: issue.repository.name,
           nameWithOwner: repoName,
+          viewerLogin: credentials.username,
           issues: []
         }
       }

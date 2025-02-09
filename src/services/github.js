@@ -52,6 +52,7 @@ export const fetchUserIssues = async (pat) => {
     const query = `
       query {
         viewer {
+          login
           issues(first: 100, states: OPEN) {
             nodes {
               id
@@ -70,6 +71,10 @@ export const fetchUserIssues = async (pat) => {
                 id
                 nameWithOwner
                 name
+                url
+                owner {
+                  login
+                }
               }
             }
           }
@@ -83,7 +88,7 @@ export const fetchUserIssues = async (pat) => {
       throw new Error(response.data.errors[0].message)
     }
 
-    return response.data.data.viewer.issues.nodes
+    return response.data.data
   } catch (error) {
     if (error.response?.status === 401) {
       throw new Error('Authentication failed')

@@ -22,12 +22,14 @@ function App() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="w-full px-4 py-8">
       <h1 className="text-3xl font-bold mb-8 text-center">GitHub Issues Viewer</h1>
       {isAuthenticated ? (
         <IssueList onAuthFailure={handleAuthFailure} />
       ) : (
-        <LoginForm onLoginSuccess={handleLoginSuccess} />
+        <div className="max-w-md mx-auto">
+          <LoginForm onLoginSuccess={handleLoginSuccess} />
+        </div>
       )}
     </div>
   )

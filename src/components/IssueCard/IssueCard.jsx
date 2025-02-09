@@ -12,7 +12,7 @@ function IssueCard({ issue }) {
 
   return (
     <div 
-      className="border border-gray-200 rounded-md p-4 hover:bg-gray-50 relative"
+      className="border border-gray-200 rounded-md p-3 hover:bg-gray-50 relative group"
       onMouseEnter={() => setShowDescription(true)}
       onMouseLeave={() => setShowDescription(false)}
     >
@@ -22,19 +22,20 @@ function IssueCard({ issue }) {
         rel="noopener noreferrer"
         className="block"
       >
-        <h3 className="text-lg font-medium text-gray-900 mb-2">{title}</h3>
-        <div className="flex items-center space-x-4 text-sm text-gray-500">
-          <span>Created: {formattedDate}</span>
+        <h3 className="text-sm font-medium text-gray-900 mb-2 line-clamp-2">{title}</h3>
+        <div className="flex flex-col gap-2 text-xs text-gray-500">
+          <span>{formattedDate}</span>
           {labels.nodes.length > 0 && (
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-1">
               {labels.nodes.map(label => (
                 <span
                   key={label.id}
-                  className="px-2 py-1 rounded-full text-xs"
+                  className="px-1.5 py-0.5 rounded-full text-xs truncate max-w-[120px]"
                   style={{
                     backgroundColor: `#${label.color}`,
                     color: parseInt(label.color, 16) > 0xffffff / 2 ? '#000' : '#fff'
                   }}
+                  title={label.name}
                 >
                   {label.name}
                 </span>
@@ -44,8 +45,8 @@ function IssueCard({ issue }) {
         </div>
       </a>
       {showDescription && body && (
-        <div className="absolute z-10 left-full ml-2 top-0 w-[600px] bg-white p-4 rounded-md shadow-lg border border-gray-200 text-sm">
-          <div className="prose max-w-none">{body}</div>
+        <div className="absolute z-10 left-full ml-2 top-0 w-[400px] bg-white p-4 rounded-md shadow-lg border border-gray-200 text-sm">
+          <div className="prose prose-sm max-w-none">{body}</div>
         </div>
       )}
     </div>
