@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { fetchIssues } from '../../services/dataManager'
 import RepositoryGroup from '../RepositoryGroup/RepositoryGroup'
 
-function IssueList() {
+function IssueList({ onAuthFailure }) {
   const [repositories, setRepositories] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -19,6 +19,9 @@ function IssueList() {
       setRepositories(data)
     } catch (err) {
       setError(err.message)
+      if (err.message === 'Authentication failed' || err.message === 'No credentials found') {
+        onAuthFailure()
+      }
     } finally {
       setIsLoading(false)
     }

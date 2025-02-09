@@ -1,5 +1,5 @@
 import { fetchUserIssues } from './github'
-import { getCredentials } from '../utils/localStorage'
+import { getCredentials, clearCredentials } from '../utils/localStorage'
 import { saveToCache, getFromCache, clearCache } from '../utils/cache'
 
 export const fetchIssues = async (forceFresh = false) => {
@@ -20,33 +20,41 @@ export const fetchIssues = async (forceFresh = false) => {
     throw new Error('No credentials found')
   }
 
-  const issues = await fetchUserIssues(credentials.pat)
-  
-  // Group issues by repository
-  const groupedIssues = issues.reduce((acc, issue) => {
-    const repoName = issue.repository.nameWithOwner
-    if (!acc[repoName]) {
-      acc[repoName] = {
-        id: issue.repository.id,
-        name: issue.repository.name,
-        nameWithOwner: repoName,
-        issues: []
+  try {
+    const issues = await fetchUserIssues(credentials.pat)
+    
+    // Group issues by repository
+    const groupedIssues = issues.reduce((acc, issue) => {
+      const repoName = issue.repository.nameWithOwner
+      if (!acc[repoName]) {
+        acc[repoName] = {
+          id: issue.repository.id,
+          name: issue.repository.name,
+          nameWithOwner: repoName,
+          issues: []
+        }
       }
+      acc[repoName].issues.push(issue)
+      return acc
+    }, {})
+
+    // Sort repositories alphabetically
+    const sortedRepos = Object.values(groupedIssues).sort((a, b) => 
+      a.nameWithOwner.localeCompare(b.nameWithOwner)
+    )
+
+    // Sort issues by creation date within each repository
+    sortedRepos.forEach(repo => {
+      repo.issues.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    })
+
+    saveToCache(sortedRepos)
+    return sortedRepos
+  } catch (error) {
+    if (error.message === 'Authentication failed') {
+      clearCredentials()
+      clearCache()
     }
-    acc[repoName].issues.push(issue)
-    return acc
-  }, {})
-
-  // Sort repositories alphabetically
-  const sortedRepos = Object.values(groupedIssues).sort((a, b) => 
-    a.nameWithOwner.localeCompare(b.nameWithOwner)
-  )
-
-  // Sort issues by creation date within each repository
-  sortedRepos.forEach(repo => {
-    repo.issues.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-  })
-
-  saveToCache(sortedRepos)
-  return sortedRepos
+    throw error
+  }
 } 
