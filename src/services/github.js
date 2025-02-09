@@ -46,4 +46,50 @@ export const validateCredentials = async (username, pat) => {
   }
 }
 
+export const fetchUserIssues = async (pat) => {
+  try {
+    const client = createGitHubClient(pat)
+    const query = `
+      query {
+        viewer {
+          issues(first: 100, states: OPEN) {
+            nodes {
+              id
+              title
+              body
+              url
+              createdAt
+              labels(first: 10) {
+                nodes {
+                  id
+                  name
+                  color
+                }
+              }
+              repository {
+                id
+                nameWithOwner
+                name
+              }
+            }
+          }
+        }
+      }
+    `
+    
+    const response = await client.post('', { query })
+
+    if (response.data.errors) {
+      throw new Error(response.data.errors[0].message)
+    }
+
+    return response.data.data.viewer.issues.nodes
+  } catch (error) {
+    if (error.response?.status === 401) {
+      throw new Error('Authentication failed')
+    }
+    throw error
+  }
+}
+
 // GitHub API service will go here 

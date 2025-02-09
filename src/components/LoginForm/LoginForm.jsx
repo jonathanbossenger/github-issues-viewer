@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { saveCredentials } from '../../utils/localStorage'
 import { validateCredentials } from '../../services/github'
 
-function LoginForm() {
+function LoginForm({ onLoginSuccess }) {
   const [credentials, setCredentials] = useState({
     username: '',
     pat: ''
@@ -18,7 +18,7 @@ function LoginForm() {
     try {
       await validateCredentials(credentials.username, credentials.pat)
       saveCredentials(credentials.username, credentials.pat)
-      // TODO: Trigger app state update to show issues
+      onLoginSuccess()
     } catch (error) {
       setError(error.message)
     } finally {
