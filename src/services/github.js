@@ -51,10 +51,13 @@ export const fetchUserIssues = async (pat) => {
     const client = createGitHubClient(pat)
     const query = `
       query {
-        viewer {
-          login
-          issues(first: 100, states: OPEN) {
-            nodes {
+        search(
+          query: "is:issue is:open assignee:@me"
+          type: ISSUE
+          first: 100
+        ) {
+          nodes {
+            ... on Issue {
               id
               title
               body
