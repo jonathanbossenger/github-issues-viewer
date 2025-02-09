@@ -46,13 +46,13 @@ export const validateCredentials = async (username, pat) => {
   }
 }
 
-export const fetchUserIssues = async (pat) => {
+export const fetchUserIssues = async (pat, username) => {
   try {
     const client = createGitHubClient(pat)
     const query = `
       query {
         search(
-          query: "is:issue is:open assignee:@me"
+          query: "is:issue is:open assignee:${username}"
           type: ISSUE
           first: 100
         ) {

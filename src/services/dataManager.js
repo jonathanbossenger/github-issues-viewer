@@ -21,7 +21,7 @@ export const fetchIssues = async (forceFresh = false) => {
   }
 
   try {
-    const response = await fetchUserIssues(credentials.pat)
+    const response = await fetchUserIssues(credentials.pat, credentials.username)
     const issues = response.search.nodes
     
     // Group issues by repository
