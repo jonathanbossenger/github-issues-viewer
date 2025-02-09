@@ -52,7 +52,7 @@ export const fetchUserIssues = async (pat, username) => {
     const query = `
       query {
         search(
-          query: "is:issue is:open assignee:${username}"
+          query: "is:issue is:open assignee:${username} -archived:true"
           type: ISSUE
           first: 100
         ) {
