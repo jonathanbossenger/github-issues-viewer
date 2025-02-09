@@ -1,4 +1,5 @@
 const CACHE_KEY = 'github_issues_cache'
+const RATE_LIMIT_SECONDS = 30
 
 export const saveToCache = (issues) => {
   const cache = {
@@ -16,4 +17,14 @@ export const getFromCache = () => {
 
 export const clearCache = () => {
   sessionStorage.removeItem(CACHE_KEY)
+}
+
+export const shouldRefreshData = () => {
+  const cache = getFromCache()
+  if (!cache || !cache.timestamp) return true
+  
+  const now = new Date().getTime()
+  const timeSinceLastRefresh = (now - cache.timestamp) / 1000 // Convert to seconds
+  
+  return timeSinceLastRefresh >= RATE_LIMIT_SECONDS
 } 

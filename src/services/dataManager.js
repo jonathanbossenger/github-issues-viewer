@@ -1,16 +1,14 @@
 import { fetchUserIssues } from './github'
 import { getCredentials, clearCredentials } from '../utils/localStorage'
-import { saveToCache, getFromCache, clearCache } from '../utils/cache'
+import { saveToCache, getFromCache, clearCache, shouldRefreshData } from '../utils/cache'
 
 export const fetchIssues = async (forceFresh = false) => {
-  // Clear cache if force refresh
-  if (forceFresh) {
-    clearCache()
-  }
-
-  // Check cache first
+  // Check if we should refresh based on rate limit
+  const shouldRefresh = forceFresh || shouldRefreshData()
+  
+  // If we shouldn't refresh, return cached data
   const cache = getFromCache()
-  if (cache && !forceFresh) {
+  if (cache && !shouldRefresh) {
     return cache.data
   }
 

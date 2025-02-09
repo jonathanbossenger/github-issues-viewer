@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import { fetchIssues } from '../../services/dataManager'
+import { shouldRefreshData } from '../../utils/cache'
 import RepositoryGroup from '../RepositoryGroup/RepositoryGroup'
 
 function IssueList({ onAuthFailure }) {
   const [repositories, setRepositories] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [lastRefreshTime, setLastRefreshTime] = useState(null)
 
   useEffect(() => {
     loadIssues()
@@ -17,6 +19,7 @@ function IssueList({ onAuthFailure }) {
       setError(null)
       const data = await fetchIssues(forceFresh)
       setRepositories(data)
+      setLastRefreshTime(new Date().getTime())
     } catch (err) {
       setError(err.message)
       if (err.message === 'Authentication failed' || err.message === 'No credentials found') {
@@ -26,6 +29,8 @@ function IssueList({ onAuthFailure }) {
       setIsLoading(false)
     }
   }
+
+  const canRefresh = shouldRefreshData()
 
   if (isLoading) {
     return (
@@ -52,10 +57,26 @@ function IssueList({ onAuthFailure }) {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 mx-[-1rem] px-4">
-      {repositories.map(repo => (
-        <RepositoryGroup key={repo.id} repository={repo} />
-      ))}
+    <div>
+      <div className="flex flex-col items-center mb-4 px-4 space-y-2">
+        <div className="text-sm text-gray-600">
+          {lastRefreshTime && (
+            <span>
+              Last updated: {new Date(lastRefreshTime).toLocaleTimeString()}
+            </span>
+          )}
+        </div>
+        {!canRefresh && (
+          <div className="text-sm font-semibold text-amber-600 bg-amber-50 px-4 py-2 rounded-full">
+            Please wait a moment before refreshing again
+          </div>
+        )}
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 mx-[-1rem] px-4">
+        {repositories.map(repo => (
+          <RepositoryGroup key={repo.id} repository={repo} />
+        ))}
+      </div>
     </div>
   )
 }
