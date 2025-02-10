@@ -20,7 +20,7 @@ function RepositoryGroup({ repository }) {
           {issues.length} {issues.length === 1 ? 'issue' : 'issues'}
         </span>
       </div>
-      <div className="space-y-2 flex-grow overflow-y-auto max-h-[calc(100vh-14rem)]">
+      <div className="space-y-2 flex-grow overflow-y-auto max-h-[400px]">
         {issues.map(issue => (
           <IssueCard key={issue.id} issue={issue} />
         ))}
