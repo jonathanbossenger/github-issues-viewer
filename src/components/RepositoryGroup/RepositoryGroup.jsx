@@ -5,25 +5,31 @@ function RepositoryGroup({ repository }) {
   const issuesUrl = `https://github.com/${nameWithOwner}/issues?q=is%3Aissue+state%3Aopen+assignee%3A${viewerLogin}`
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-3 h-full flex flex-col">
-      <div className="flex items-center justify-between mb-2">
-        <a 
-          href={issuesUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-lg font-bold text-gray-800 hover:text-blue-600 truncate"
-          title={`View all issues assigned to you in ${nameWithOwner}`}
-        >
-          {nameWithOwner}
-        </a>
-        <span className="bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full text-sm flex-shrink-0 ml-2">
-          {issues.length} {issues.length === 1 ? 'issue' : 'issues'}
-        </span>
-      </div>
-      <div className="space-y-2 flex-grow overflow-y-auto max-h-[400px]">
-        {issues.map(issue => (
-          <IssueCard key={issue.id} issue={issue} />
-        ))}
+    <div className="p-2">
+      <div className="bg-white rounded-lg shadow-lg flex flex-col border border-gray-300">
+        <div className="p-3 pb-2">
+          <div className="flex items-center justify-between">
+            <a 
+              href={issuesUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-lg font-bold text-gray-800 hover:text-blue-600 truncate"
+              title={`View all issues assigned to you in ${nameWithOwner}`}
+            >
+              {nameWithOwner}
+            </a>
+            <span className="bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full text-sm flex-shrink-0 ml-2">
+              {issues.length} {issues.length === 1 ? 'issue' : 'issues'}
+            </span>
+          </div>
+        </div>
+        <div className="px-3 pb-3">
+          <div className="space-y-2 overflow-y-auto max-h-[400px] pr-1">
+            {issues.map(issue => (
+              <IssueCard key={issue.id} issue={issue} />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   )
