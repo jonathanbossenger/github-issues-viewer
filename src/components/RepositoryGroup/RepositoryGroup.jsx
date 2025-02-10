@@ -5,9 +5,9 @@ function RepositoryGroup({ repository }) {
   const issuesUrl = `https://github.com/${nameWithOwner}/issues?q=is%3Aissue+state%3Aopen+assignee%3A${viewerLogin}`
 
   return (
-    <div className="p-2">
-      <div className="bg-white rounded-lg shadow-lg flex flex-col border border-gray-300">
-        <div className="p-3 pb-2">
+    <div className="p-2 h-[500px]">
+      <div className="bg-white rounded-lg shadow-lg flex flex-col border border-gray-300 h-full">
+        <div className="p-3 pb-2 flex-shrink-0">
           <div className="flex items-center justify-between">
             <a 
               href={issuesUrl}
@@ -23,8 +23,8 @@ function RepositoryGroup({ repository }) {
             </span>
           </div>
         </div>
-        <div className="px-3 pb-3">
-          <div className="space-y-2 overflow-y-auto max-h-[400px] pr-1">
+        <div className="px-3 pb-3 flex-grow overflow-hidden">
+          <div className="space-y-2 overflow-y-auto h-full pr-1">
             {issues.map(issue => (
               <IssueCard key={issue.id} issue={issue} />
             ))}
