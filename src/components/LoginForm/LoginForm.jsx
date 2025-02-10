@@ -7,25 +7,20 @@ function TokenInstructions() {
     <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
       <h3 className="text-lg font-semibold text-gray-800 mb-3">How to Create a GitHub Personal Access Token</h3>
       <ol className="list-decimal list-inside space-y-2 text-gray-600">
-        <li>Go to GitHub.com and sign in</li>
-        <li>Click your profile picture → <strong>Settings</strong></li>
-        <li>Scroll to <strong>Developer settings</strong> (bottom of left sidebar)</li>
-        <li>Click <strong>Personal access tokens</strong> → <strong>Fine-grained tokens</strong></li>
-        <li>Click <strong>Generate new token</strong></li>
-        <li>Configure your token:
+        <li>Go to GitHub Settings → Developer Settings → <a href="https://github.com/settings/tokens" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Personal Access Tokens</a> → Tokens (classic)</li>
+        <li>Click "Generate new token (classic)"</li>
+        <li>Give your token a descriptive name</li>
+        <li>For scopes, select:
           <ul className="list-disc list-inside ml-5 mt-1 space-y-1">
-            <li>Set a token name (e.g., "GitHub Issues Viewer")</li>
-            <li>Choose an expiration date</li>
-            <li>Under "Repository access" select "All repositories"</li>
-            <li>Under "Permissions" expand "Repository permissions"</li>
-            <li>Find "Issues" and set it to "Read-only"</li>
+            <li><code className="bg-gray-100 px-1 rounded">repo</code> (Full control of private repositories)</li>
+            <li>This is required to access both public and private repository issues</li>
           </ul>
         </li>
-        <li>Click <strong>Generate token</strong> at the bottom</li>
-        <li>Copy your new token immediately (you won't see it again!)</li>
+        <li>Click "Generate token"</li>
+        <li>Copy your token immediately - you won't be able to see it again!</li>
       </ol>
       <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded text-sm text-blue-700">
-        <strong>Note:</strong> Your token is like a password. Never share it or commit it to version control.
+        <strong>Important:</strong> Keep your token secure and never commit it to version control. The app stores it locally and only uses it to make authenticated requests to GitHub's API.
       </div>
     </div>
   )

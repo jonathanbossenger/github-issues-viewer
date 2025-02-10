@@ -91,10 +91,11 @@ export const fetchUserIssues = async (pat, username) => {
       throw new Error(response.data.errors[0].message)
     }
 
+    console.log(response.data);
     return response.data.data
   } catch (error) {
     if (error.response?.status === 401) {
-      throw new Error('Authentication failed')
+      throw new Error('Authentication failed. Please ensure you are using a Classic PAT with the repo scope enabled.')
     }
     throw error
   }

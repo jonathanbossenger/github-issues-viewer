@@ -44,16 +44,23 @@ GitHub Issues Viewer is a single-page application that provides a clean, organiz
 
 ### Authentication
 
-1. Have your GitHub Personal Access Token ready
-   - Generate one at GitHub.com → **Settings** → **Developer Settings** → **Personal Access Tokens**
-   - Create **Fine-grained token** with your chosen name, expiration, and description
-   - Under **Repository access** select **All repositories**
-   - Under **Permissions** select **Read-only** for **Issues**
+This app requires a GitHub Classic Personal Access Token (PAT) to function. Follow these steps to create one:
 
-2. On the login screen:
-   - Enter your GitHub username
-   - Enter your Personal Access Token
-   - Click "Login"
+1. Go to GitHub Settings > **Developer Settings > [Personal Access Tokens](https://github.com/settings/tokens) > Tokens (classic)**
+2. Click **Generate new token (classic)**
+3. Give your token a descriptive name
+4. For scopes, select:
+   - `repo` (Full control of private repositories)
+   This is required to access both public and private repository issues
+5. Click **Generate token**
+6. Copy your token immediately - you won't be able to see it again!
+
+**Important**: Keep your token secure and never commit it to version control. The app stores it locally and only uses it to make authenticated requests to GitHub's API.
+
+On the login screen:
+- Enter your GitHub username
+- Enter your Personal Access Token
+- Click **Login**
 
 ### Using the Dashboard
 
