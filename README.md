@@ -46,6 +46,18 @@ Try out the application at [https://jonathanbossenger.github.io/github-issues-vi
 
 4. Open your browser and navigate to `http://localhost:5173`
 
+### Building and Deploying
+
+To deploy this application to your own web server:
+
+1. Create a production build:
+   ```bash
+   npm run build
+   ```
+   This will create a `dist` directory containing optimized static files.
+
+2. Upload the contents of the `dist` directory to your web server using your preferred method (FTP, SCP, rsync, etc.):
+
 ### Authentication
 
 This app requires a GitHub Classic Personal Access Token (PAT) to function. Follow these steps to create one:
