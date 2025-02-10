@@ -14,6 +14,10 @@ GitHub Issues Viewer is a single-page application that provides a clean, organiz
 - **Quick Access**: Direct links to GitHub issues and repository views
 - **Smart Caching**: Session-based caching to handle API rate limits efficiently
 
+## Live Demo
+
+Try out the application at [https://jonathanbossenger.github.io/github-issues-viewer/](https://jonathanbossenger.github.io/github-issues-viewer/). See the [Authentication](#authentication) section for instructions on how to use it.
+
 ## How to Use
 
 ### Prerequisites
